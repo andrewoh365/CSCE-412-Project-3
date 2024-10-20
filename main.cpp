@@ -9,7 +9,7 @@ using namespace std;
 
 const int NUMWEBSERVERS = 5;
 
-//create a request
+// Create a request
 request createRandomRequest()
 {
     stringstream ips, ipd;
@@ -17,9 +17,12 @@ request createRandomRequest()
     string job[2] = {"processing", "streaming"};
     ips << (rand() % 256) << "." << (rand() % 256) << "." << (rand() % 256) << "." << (rand() % 256);
     ipd << (rand() % 256) << "." << (rand() % 256) << "." << (rand() % 256) << "." << (rand() % 256);
-    r.ipIn = ips.str();  // Set the source IP
-    r.ipOut = ipd.str();  // Set the destination IP
-    r.processTime = rand() % 500;  // Random processing time
+    // Set the source IP
+    r.ipIn = ips.str();
+    // Set the destination IP
+    r.ipOut = ipd.str();
+    // Random processing time
+    r.processTime = rand() % 500;
     r.jobType = job[rand() % 2];
     return r;
 }
@@ -56,21 +59,18 @@ int main() {
     int SERVERS;        
     int TOTALTIME;     
 
-    // User input
     cout << "Number of Servers: ";
     cin >> SERVERS;
 
     cout << "Total run time: ";
     cin >> TOTALTIME;
 
-    // Seed random number generator with current system time
     srand(time(0));
 
-    // Initialize output file and declare loadbalancer variable
     ofstream file("log.txt");
     LoadBalancer lb(SERVERS, &file);
- 
-    // Start off with a "full" queue
+
+    // Creates full server queue
     int generated = 0;
     while (generated < SERVERS * 100) {
         request r = createRandomRequest();
@@ -80,12 +80,11 @@ int main() {
         }
     }
 
+    // Loops through and creates requests
     file << "------- LOAD BALANCER LOG -------" << endl;
-    // Loop through the total simulation time
     while (lb.getCurrentTime() < TOTALTIME) {
         lb.run();
 
-        // Create new requests at random intervals
         if (rand() % 4 == 0) {
             request r = createRandomRequest();
             if (isIPBlocked(r.ipIn)) {
@@ -98,11 +97,11 @@ int main() {
         }
     }
 
-    // Output statistics at the end of the simulation
+    // Show statistics after simulation ends
     lb.showStatistics();
 
-    file.close();  // Close the log file
+    file.close();
     cout << "----- Created file log.txt -----" << endl;
 
-    return 0;  // Exit the program successfully
+    return 0;
 }

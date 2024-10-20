@@ -10,28 +10,36 @@
 
 class LoadBalancer {
 public:
-    LoadBalancer();  // Default constructor
-    LoadBalancer(int servers, ofstream* _log);  // Constructor with server count
+    LoadBalancer();
+    LoadBalancer(int servers, ofstream* _log);
 
     void setCurrentTime();
-    int getCurrentTime();  // Get the current system time
-    void incTime();  // Increment system time
-
-    void queueRequest(request req);  // Add a request to the queue
-    request fetchNextRequest();  // Fetch the next request from the queue
+    // Get the current system time
+    int getCurrentTime();
+    // Increment system time
+    void incTime();
+     // Add a request to the queue
+    void queueRequest(request req);
+    // Fetch the next request from the queue
+    request fetchNextRequest();
     void queueBlockedRequest();
-    bool isQueueEmpty();  // Check if the request queue is empty
-    int getQueueLength();  // Get the current length of the queue
-
-    void run();  // Run a single cycle of load balancing
-    void showStatistics();  // Show statistics of the load balancer
+    // Check if the request queue is empty
+    bool isQueueEmpty();
+    // Get the current length of the queue
+    int getQueueLength();
+    // Run a single cycle of load balancing
+    void run();
+    // Show statistics of the load balancer
+    void showStatistics();
 
 private:
-    int time;  // Tracks elapsed time
-    int currentServerIndex;  // Index of the current server
+    // Track elapsed time
+    int time;
+    // Index of the current server
+    int currentServerIndex;
     ofstream* log;
-    std::queue<request> jobQueue;  // Queue of requests
-    std::vector<webserver> webarray;  // Pool of web servers
+    std::queue<request> jobQueue;
+    std::vector<webserver> webarray;
 
     // Statistics
     int totalRequestsHandled;
@@ -42,9 +50,10 @@ private:
     int serversDeallocated;
     int maxQueueCapacity;
     int minQueueCapacity;
-
-    int activeServers;  // Current active servers
-    int maxServers;  // Maximum number of servers allowed
+    // Current active servers
+    int activeServers;
+    // Maximum number of servers allowed
+    int maxServers;
 };
 
 #endif

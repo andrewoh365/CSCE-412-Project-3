@@ -1,16 +1,14 @@
 #include "loadbalancer.h"
 #include <iostream>
 
-/**
- * @brief Default constructor that initializes system time, server count, and statistics.
- */
+// Initialize system time, server count, and statistics.
 LoadBalancer::LoadBalancer() {
     time = 0;
     currentServerIndex = 0;
     activeServers = 0;
     maxServers = 0;
 
-    // statistics
+    // Stats
     totalRequestsHandled = 0;
     failedRequests = 0;
     longestProcessingTime = 0;
@@ -21,10 +19,6 @@ LoadBalancer::LoadBalancer() {
     minQueueCapacity = 0;
 }
 
-/**
- * @brief Constructor that initializes the load balancer with a defined number of servers.
- * @param serverCount The number of servers to start with.
- */
 LoadBalancer::LoadBalancer(int servers, std::ofstream* _log) : LoadBalancer() {
     log = _log;
     activeServers = maxServers = servers;
@@ -35,10 +29,6 @@ LoadBalancer::LoadBalancer(int servers, std::ofstream* _log) : LoadBalancer() {
     }
 }
 
-/**
- * @brief Retrieve the current time in the system.
- * @return The current system time.
- */
 int LoadBalancer::getCurrentTime() {
     return time;
 }
@@ -47,17 +37,10 @@ void LoadBalancer::queueBlockedRequest() {
     failedRequests++;
 }
 
-/**
- * @brief Increase the system time by one unit.
- */
 void LoadBalancer::incTime() {
     time++;
 }
 
-/**
- * @brief Add a request to the queue, while updating processing statistics.
- * @param req The request to be added.
- */
 void LoadBalancer::queueRequest(request req) {
     if (req.processTime > longestProcessingTime) {
         longestProcessingTime = req.processTime;
@@ -69,10 +52,6 @@ void LoadBalancer::queueRequest(request req) {
     incTime();
 }
 
-/**
- * @brief Retrieve the next request from the queue.
- * @return The next request from the queue, or an empty request if the queue is empty.
- */
 request LoadBalancer::fetchNextRequest() {
     incTime();
     if (!jobQueue.empty()) {
@@ -83,26 +62,14 @@ request LoadBalancer::fetchNextRequest() {
     return request();  // Return an empty request if the queue is empty
 }
 
-/**
- * @brief Check if the queue has no requests.
- * @return True if the queue is empty, false otherwise.
- */
 bool LoadBalancer::isQueueEmpty() {
     return jobQueue.empty();
 }
 
-/**
- * @brief Get the number of requests currently in the queue.
- * @return The number of requests in the queue.
- */
 int LoadBalancer::getQueueLength() {
     return jobQueue.size();
 }
 
-/**
- * @brief Perform one cycle of the load balancing process.
- * This manages request assignment, server availability, and statistics.
- */
 void LoadBalancer::run() {
     // Log the queue size every 50 time units
     if (getCurrentTime() % 50 == 0) {
@@ -147,12 +114,11 @@ void LoadBalancer::run() {
     }
 
     incTime();
-    currentServerIndex = (currentServerIndex + 1) % activeServers;  // Move to the next server
+    currentServerIndex = (currentServerIndex + 1) % activeServers;
 }
 
-/**
- * @brief Display the final statistics after processing is complete.
- */
+// Display the final statistics after processing is complete.
+
 void LoadBalancer::showStatistics() {
     *log << "------- FINAL STATISTICS -------\n"
               << "Initial queue size: " << maxServers * 100 << "\n"
