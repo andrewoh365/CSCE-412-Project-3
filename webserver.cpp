@@ -1,8 +1,8 @@
 //webserver.cpp
+#ifndef WEBSERVER_CPP
+#define WEBSERVER_CPP
 
-#ifndef REQUEST_CPP
-#include "request.cpp"
-#endif
+#include "request.h"
 
 class webserver
 {
@@ -54,3 +54,5 @@ class webserver
     char servername;
     bool available;
 };
+
+#endif

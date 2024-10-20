@@ -10,26 +10,27 @@
 class LoadBalancer {
 public:
     LoadBalancer();  // Default constructor
-    LoadBalancer(int serverCount);  // Constructor with server count
+    LoadBalancer(int servers, ofstream* _log);  // Constructor with server count
 
+    void setCurrentTime();
     int getCurrentTime();  // Get the current system time
-    void advanceTime();  // Increment system time
+    void incTime();  // Increment system time
 
-    void queueRequest(const request& req);  // Add a request to the queue
+    void queueRequest(request req);  // Add a request to the queue
     request fetchNextRequest();  // Fetch the next request from the queue
-
+    void queueBlockedRequest();
     bool isQueueEmpty();  // Check if the request queue is empty
     int getQueueLength();  // Get the current length of the queue
 
-    void runCycle();  // Run a single cycle of load balancing
+    void run();  // Run a single cycle of load balancing
     void showStatistics();  // Show statistics of the load balancer
 
 private:
-    int timeElapsed;  // Tracks elapsed time
+    int time;  // Tracks elapsed time
     int currentServerIndex;  // Index of the current server
-
+    ofstream* log;
     std::queue<request> jobQueue;  // Queue of requests
-    std::vector<webserver> serverPool;  // Pool of web servers
+    std::vector<webserver> webarray;  // Pool of web servers
 
     // Statistics
     int totalRequestsHandled;
@@ -37,7 +38,7 @@ private:
     int longestProcessingTime;
     int shortestProcessingTime;
     int serversAllocated;
-    int serversFreed;
+    int serversDeallocated;
     int maxQueueCapacity;
     int minQueueCapacity;
 

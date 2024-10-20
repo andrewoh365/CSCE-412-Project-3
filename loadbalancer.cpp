@@ -5,7 +5,7 @@
  * @brief Default constructor that initializes system time, server count, and statistics.
  */
 LoadBalancer::LoadBalancer() {
-    timeElapsed = 0;
+    time = 0;
     currentServerIndex = 0;
     activeServers = 0;
     maxServers = 0;
@@ -16,7 +16,7 @@ LoadBalancer::LoadBalancer() {
     longestProcessingTime = 0;
     shortestProcessingTime = INT_MAX;
     serversAllocated = 0;
-    serversFreed = 0;
+    serversDeallocated = 0;
     maxQueueCapacity = INT_MAX;
     minQueueCapacity = 0;
 }
@@ -25,12 +25,12 @@ LoadBalancer::LoadBalancer() {
  * @brief Constructor that initializes the load balancer with a defined number of servers.
  * @param serverCount The number of servers to start with.
  */
-LoadBalancer::LoadBalancer(int serverCount) : LoadBalancer() {
-    activeServers = maxServers = serverCount;
-    minQueueCapacity = maxQueueCapacity = serverCount * 100;
+LoadBalancer::LoadBalancer(int servers, std::ofstream* _log) : LoadBalancer() {
+    activeServers = maxServers = servers;
+    minQueueCapacity = maxQueueCapacity = servers * 100;
 
     for (int i = 0; i < maxServers; i++) {
-        serverPool.push_back(webserver('A' + i));  // Initialize servers with unique names
+        webarray.push_back(webserver('A' + i));  // Initialize servers with unique names
     }
 }
 
@@ -39,21 +39,25 @@ LoadBalancer::LoadBalancer(int serverCount) : LoadBalancer() {
  * @return The current system time.
  */
 int LoadBalancer::getCurrentTime() {
-    return timeElapsed;
+    return time;
+}
+
+void LoadBalancer::queueBlockedRequest() {
+    failedRequests++;
 }
 
 /**
  * @brief Increase the system time by one unit.
  */
-void LoadBalancer::advanceTime() {
-    timeElapsed++;
+void LoadBalancer::incTime() {
+    time++;
 }
 
 /**
  * @brief Add a request to the queue, while updating processing statistics.
  * @param req The request to be added.
  */
-void LoadBalancer::queueRequest(const request& req) {
+void LoadBalancer::queueRequest(request req) {
     if (req.processTime > longestProcessingTime) {
         longestProcessingTime = req.processTime;
     }
@@ -61,7 +65,7 @@ void LoadBalancer::queueRequest(const request& req) {
         shortestProcessingTime = req.processTime;
     }
     jobQueue.push(req);
-    advanceTime();
+    incTime();
 }
 
 /**
@@ -69,7 +73,7 @@ void LoadBalancer::queueRequest(const request& req) {
  * @return The next request from the queue, or an empty request if the queue is empty.
  */
 request LoadBalancer::fetchNextRequest() {
-    advanceTime();
+    incTime();
     if (!jobQueue.empty()) {
         request req = jobQueue.front();
         jobQueue.pop();
@@ -98,50 +102,50 @@ int LoadBalancer::getQueueLength() {
  * @brief Perform one cycle of the load balancing process.
  * This manages request assignment, server availability, and statistics.
  */
-void LoadBalancer::runCycle() {
+void LoadBalancer::run() {
     // Log the queue size every 50 time units
     if (getCurrentTime() % 50 == 0) {
         std::cout << "Time " << getCurrentTime() << ": " << getQueueLength() << " request(s) in queue." << std::endl;
     }
 
     // Check if the current server has finished processing its request
-    if (!serverPool[currentServerIndex].getAvailability() && serverPool[currentServerIndex].isRequestDone(getCurrentTime())) {
-        request req = serverPool[currentServerIndex].getRequest();
+    if (!webarray[currentServerIndex].getAvailability() && webarray[currentServerIndex].isRequestDone(getCurrentTime())) {
+        request req = webarray[currentServerIndex].getRequest();
         totalRequestsHandled++;
-        std::cout << "Time " << getCurrentTime() << ": Server " << serverPool[currentServerIndex].getName()
+        std::cout << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
                   << " completed request from " << req.ipIn << " to " << req.ipOut << std::endl;
-        serverPool[currentServerIndex].setAvailability(true);
+        webarray[currentServerIndex].setAvailability(true);
     }
 
     // Manage server allocation and deallocation based on queue size
     if (getQueueLength() > 10 * activeServers && maxServers >= activeServers + 1) {
         // Allocate additional server
         serversAllocated++;
-        serverPool.push_back(webserver('A' + serverPool.size()));
+        webarray.push_back(webserver('A' + webarray.size()));
         activeServers++;
-        std::cout << "Time " << getCurrentTime() << ": Added new server " << serverPool.back().getName()
+        std::cout << "Time " << getCurrentTime() << ": Added new server " << webarray.back().getName()
                   << " (" << activeServers << " active servers)" << std::endl;
-    } else if (getQueueLength() < 3 * activeServers && activeServers > 3 && serverPool.back().getAvailability()) {
+    } else if (getQueueLength() < 3 * activeServers && activeServers > 3 && webarray.back().getAvailability()) {
         // Free an idle server
-        serversFreed++;
-        std::cout << "Time " << getCurrentTime() << ": Freed server " << serverPool.back().getName()
+        serversDeallocated++;
+        std::cout << "Time " << getCurrentTime() << ": Freed server " << webarray.back().getName()
                   << " (" << --activeServers << " active servers)" << std::endl;
-        serverPool.pop_back();
+        webarray.pop_back();
         if (currentServerIndex >= activeServers) {
             currentServerIndex = 0;  // Reset index if necessary
         }
     }
 
     // Assign a new request to an available server
-    if (serverPool[currentServerIndex].getAvailability() && !isQueueEmpty()) {
+    if (webarray[currentServerIndex].getAvailability() && !isQueueEmpty()) {
         request req = fetchNextRequest();
-        serverPool[currentServerIndex].setRequest(req, getCurrentTime());
-        serverPool[currentServerIndex].setAvailability(false);
-        std::cout << "Time " << getCurrentTime() << ": Server " << serverPool[currentServerIndex].getName()
+        webarray[currentServerIndex].setRequest(req, getCurrentTime());
+        webarray[currentServerIndex].setAvailability(false);
+        std::cout << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
                   << " started processing request from " << req.ipIn << " to " << req.ipOut << std::endl;
     }
 
-    advanceTime();
+    incTime();
     currentServerIndex = (currentServerIndex + 1) % activeServers;  // Move to the next server
 }
 
@@ -156,5 +160,5 @@ void LoadBalancer::showStatistics() {
               << "Total requests handled: " << totalRequestsHandled << "\n"
               << "Failed requests: " << failedRequests << "\n"
               << "Total servers added: " << serversAllocated << "\n"
-              << "Total servers freed: " << serversFreed << "\n";
+              << "Total servers freed: " << serversDeallocated << "\n";
 }
