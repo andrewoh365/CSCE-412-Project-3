@@ -1,0 +1,196 @@
+------- LOAD BALANCER LOG -------
+Time 200: 200 request(s) in queue.
+Time 201: Server A started processing request from 128.99.246.148 to 150.245.32.216
+Time 203: Server B started processing request from 50.86.74.208 to 16.78.194.96
+Time 206: New streaming request added to queue
+Time 208: New processing request added to queue
+Time 211: New processing request added to queue
+Time 216: New streaming request added to queue
+Time 222: New streaming request added to queue
+Time 224: New processing request added to queue
+Time 228: Request from 117.198.130.112 rejected
+Time 237: New streaming request added to queue
+Time 239: New processing request added to queue
+Time 241: New processing request added to queue
+Time 246: New streaming request added to queue
+Time 248: New streaming request added to queue
+Time 251: New streaming request added to queue
+Time 257: New processing request added to queue
+Time 265: New streaming request added to queue
+Time 267: New processing request added to queue
+Time 271: New streaming request added to queue
+Time 273: New processing request added to queue
+Time 282: New processing request added to queue
+Time 284: New streaming request added to queue
+Time 297: New streaming request added to queue
+Time 300: 218 request(s) in queue.
+Time 310: New streaming request added to queue
+Time 313: New processing request added to queue
+Time 314: Server A completed request from 128.99.246.148 to 150.245.32.216
+Time 315: Server A started processing request from 132.140.80.191 to 211.16.143.243
+Time 317: New processing request added to queue
+Time 321: New streaming request added to queue
+Time 322: Request from 111.145.210.64 rejected
+Time 325: New processing request added to queue
+Time 327: New streaming request added to queue
+Time 340: New streaming request added to queue
+Time 342: New streaming request added to queue
+Time 345: Request from 160.152.138.154 rejected
+Time 350: 225 request(s) in queue.
+Time 360: New processing request added to queue
+Time 362: New streaming request added to queue
+Time 380: New processing request added to queue
+Time 385: New processing request added to queue
+Time 389: New streaming request added to queue
+Time 392: New streaming request added to queue
+Time 394: New processing request added to queue
+Time 397: Request from 162.28.244.149 rejected
+Time 399: New streaming request added to queue
+Time 400: 233 request(s) in queue.
+Time 401: Request from 110.89.140.182 rejected
+Time 408: New streaming request added to queue
+Time 412: New streaming request added to queue
+Time 415: New streaming request added to queue
+Time 419: New streaming request added to queue
+Time 425: New processing request added to queue
+Time 432: New streaming request added to queue
+Time 444: New processing request added to queue
+Time 447: New processing request added to queue
+Time 450: 241 request(s) in queue.
+Time 455: New streaming request added to queue
+Time 461: New streaming request added to queue
+Time 463: New streaming request added to queue
+Time 464: Request from 112.154.213.184 rejected
+Time 480: Request from 163.120.173.206 rejected
+Time 483: New streaming request added to queue
+Time 488: New processing request added to queue
+Time 492: Request from 71.107.165.251 rejected
+Time 494: New processing request added to queue
+Time 496: New streaming request added to queue
+Time 498: New processing request added to queue
+Time 500: New processing request added to queue
+Time 500: 250 request(s) in queue.
+Time 503: New processing request added to queue
+Time 507: New processing request added to queue
+Time 512: New processing request added to queue
+Time 515: New streaming request added to queue
+Time 517: New streaming request added to queue
+Time 521: New streaming request added to queue
+Time 531: New streaming request added to queue
+Time 541: New streaming request added to queue
+Time 548: New processing request added to queue
+Time 550: 259 request(s) in queue.
+Time 552: New streaming request added to queue
+Time 554: Server A completed request from 132.140.80.191 to 211.16.143.243
+Time 555: Server A started processing request from 198.31.104.86 to 158.187.125.18
+Time 559: New processing request added to queue
+Time 563: New processing request added to queue
+Time 568: New processing request added to queue
+Time 573: New processing request added to queue
+Time 584: New streaming request added to queue
+Time 586: New streaming request added to queue
+Time 590: New streaming request added to queue
+Time 592: New processing request added to queue
+Time 595: Request from 110.76.235.45 rejected
+Time 598: New streaming request added to queue
+Time 600: New processing request added to queue
+Time 600: 269 request(s) in queue.
+Time 605: New streaming request added to queue
+Time 610: Server A completed request from 198.31.104.86 to 158.187.125.18
+Time 611: Server A started processing request from 207.162.104.245 to 191.62.43.42
+Time 614: New processing request added to queue
+Time 619: Request from 169.163.59.7 rejected
+Time 621: New streaming request added to queue
+Time 625: New streaming request added to queue
+Time 632: New streaming request added to queue
+Time 637: New processing request added to queue
+Time 643: New processing request added to queue
+Time 650: 275 request(s) in queue.
+Time 653: New streaming request added to queue
+Time 655: New processing request added to queue
+Time 660: New streaming request added to queue
+Time 665: New streaming request added to queue
+Time 668: New streaming request added to queue
+Time 669: Server B completed request from 50.86.74.208 to 16.78.194.96
+Time 670: Server B started processing request from 236.191.216.244 to 62.73.208.205
+Time 673: New streaming request added to queue
+Time 679: New streaming request added to queue
+Time 681: New streaming request added to queue
+Time 685: New processing request added to queue
+Time 687: New processing request added to queue
+Time 691: New processing request added to queue
+Time 693: New processing request added to queue
+Time 697: New streaming request added to queue
+Time 700: 287 request(s) in queue.
+Time 705: New streaming request added to queue
+Time 714: New processing request added to queue
+Time 717: New streaming request added to queue
+Time 722: New processing request added to queue
+Time 725: New streaming request added to queue
+Time 727: New streaming request added to queue
+Time 733: New streaming request added to queue
+Time 734: Request from 115.164.131.177 rejected
+Time 740: New streaming request added to queue
+Time 742: New streaming request added to queue
+Time 750: 296 request(s) in queue.
+Time 759: New processing request added to queue
+Time 765: New streaming request added to queue
+Time 767: New processing request added to queue
+Time 769: New processing request added to queue
+Time 773: New processing request added to queue
+Time 779: New streaming request added to queue
+Time 781: New processing request added to queue
+Time 788: New processing request added to queue
+Time 791: New processing request added to queue
+Time 793: New streaming request added to queue
+Time 800: New streaming request added to queue
+Time 800: 307 request(s) in queue.
+Time 802: New processing request added to queue
+Time 808: New processing request added to queue
+Time 814: New processing request added to queue
+Time 819: New processing request added to queue
+Time 822: New processing request added to queue
+Time 834: New processing request added to queue
+Time 837: New streaming request added to queue
+Time 844: New streaming request added to queue
+Time 849: New streaming request added to queue
+Time 850: 316 request(s) in queue.
+Time 855: Request from 165.198.234.13 rejected
+Time 862: New processing request added to queue
+Time 866: New streaming request added to queue
+Time 873: Request from 113.152.110.116 rejected
+Time 880: New processing request added to queue
+Time 887: New streaming request added to queue
+Time 892: New processing request added to queue
+Time 894: New streaming request added to queue
+Time 900: New processing request added to queue
+Time 900: 323 request(s) in queue.
+Time 905: New processing request added to queue
+Time 909: New streaming request added to queue
+Time 917: New processing request added to queue
+Time 922: Request from 163.118.134.158 rejected
+Time 924: Request from 72.76.77.240 rejected
+Time 935: New processing request added to queue
+Time 937: New processing request added to queue
+Time 943: Request from 71.123.14.64 rejected
+Time 947: Request from 162.107.81.243 rejected
+Time 949: New processing request added to queue
+Time 950: 329 request(s) in queue.
+Time 954: New processing request added to queue
+Time 957: Request from 166.161.161.98 rejected
+Time 971: New streaming request added to queue
+Time 976: New processing request added to queue
+Time 979: New streaming request added to queue
+Time 981: New streaming request added to queue
+Time 983: New processing request added to queue
+Time 986: New streaming request added to queue
+Time 987: Request from 161.93.128.163 rejected
+Time 989: New streaming request added to queue
+------- FINAL STATISTICS -------
+Initial queue size: 200
+Final queue size: 337
+Processing times: 0 - 498
+Total requests handled: 4
+Failed requests: 19
+Total servers added: 0
+Total servers freed: 0

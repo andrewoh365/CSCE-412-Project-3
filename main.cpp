@@ -60,7 +60,7 @@ int main() {
     cout << "Number of Servers: ";
     cin >> SERVERS;
 
-    cout << "Total time to run Load Balancer: ";
+    cout << "Total run time: ";
     cin >> TOTALTIME;
 
     // Seed random number generator with current system time

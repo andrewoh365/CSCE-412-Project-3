@@ -5,6 +5,7 @@
 #include <queue>
 #include <vector>
 #include <climits>
+#include <fstream>
 #include "webserver.cpp"
 
 class LoadBalancer {

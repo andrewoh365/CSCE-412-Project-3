@@ -26,6 +26,7 @@ LoadBalancer::LoadBalancer() {
  * @param serverCount The number of servers to start with.
  */
 LoadBalancer::LoadBalancer(int servers, std::ofstream* _log) : LoadBalancer() {
+    log = _log;
     activeServers = maxServers = servers;
     minQueueCapacity = maxQueueCapacity = servers * 100;
 
@@ -105,14 +106,14 @@ int LoadBalancer::getQueueLength() {
 void LoadBalancer::run() {
     // Log the queue size every 50 time units
     if (getCurrentTime() % 50 == 0) {
-        std::cout << "Time " << getCurrentTime() << ": " << getQueueLength() << " request(s) in queue." << std::endl;
+        *log << "Time " << getCurrentTime() << ": " << getQueueLength() << " request(s) in queue." << std::endl;
     }
 
     // Check if the current server has finished processing its request
     if (!webarray[currentServerIndex].getAvailability() && webarray[currentServerIndex].isRequestDone(getCurrentTime())) {
         request req = webarray[currentServerIndex].getRequest();
         totalRequestsHandled++;
-        std::cout << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
+        *log << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
                   << " completed request from " << req.ipIn << " to " << req.ipOut << std::endl;
         webarray[currentServerIndex].setAvailability(true);
     }
@@ -123,12 +124,12 @@ void LoadBalancer::run() {
         serversAllocated++;
         webarray.push_back(webserver('A' + webarray.size()));
         activeServers++;
-        std::cout << "Time " << getCurrentTime() << ": Added new server " << webarray.back().getName()
+        *log << "Time " << getCurrentTime() << ": Added new server " << webarray.back().getName()
                   << " (" << activeServers << " active servers)" << std::endl;
     } else if (getQueueLength() < 3 * activeServers && activeServers > 3 && webarray.back().getAvailability()) {
         // Free an idle server
         serversDeallocated++;
-        std::cout << "Time " << getCurrentTime() << ": Freed server " << webarray.back().getName()
+        *log << "Time " << getCurrentTime() << ": Freed server " << webarray.back().getName()
                   << " (" << --activeServers << " active servers)" << std::endl;
         webarray.pop_back();
         if (currentServerIndex >= activeServers) {
@@ -141,7 +142,7 @@ void LoadBalancer::run() {
         request req = fetchNextRequest();
         webarray[currentServerIndex].setRequest(req, getCurrentTime());
         webarray[currentServerIndex].setAvailability(false);
-        std::cout << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
+        *log << "Time " << getCurrentTime() << ": Server " << webarray[currentServerIndex].getName()
                   << " started processing request from " << req.ipIn << " to " << req.ipOut << std::endl;
     }
 
@@ -153,7 +154,7 @@ void LoadBalancer::run() {
  * @brief Display the final statistics after processing is complete.
  */
 void LoadBalancer::showStatistics() {
-    std::cout << "------- FINAL STATISTICS -------\n"
+    *log << "------- FINAL STATISTICS -------\n"
               << "Initial queue size: " << maxServers * 100 << "\n"
               << "Final queue size: " << getQueueLength() << "\n"
               << "Processing times: " << shortestProcessingTime << " - " << longestProcessingTime << "\n"
