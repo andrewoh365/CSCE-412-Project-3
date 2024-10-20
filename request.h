@@ -8,7 +8,7 @@ struct request {
     std::string ipIn;
     std::string ipOut;
     int processTime;
-    std::string jobType;  // 'P' for processing, 'S' for streaming
+    char jobType;  // 'P' for processing, 'S' for streaming
 };
 
 #endif

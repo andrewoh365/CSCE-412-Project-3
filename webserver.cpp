@@ -1,20 +1,56 @@
-// webserver.cpp
+//webserver.cpp
 
-#include "webserver.h"  // Assuming this is the correct header file name for your webserver class
+#ifndef REQUEST_CPP
+#include "request.cpp"
+#endif
 
-void WebServer::addRequest(request newReq, int currentTime) {
-    req = newReq; 
-    reqStartTime = currentTime;
-}
+class webserver
+{
+  public:
+    webserver()
+    {
+      requestStartTime = 0;
+      servername = ' ';
+      available = true;
+    }
+    webserver (char c) : webserver()
+    {
+      servername = c;
+    }
+    void addRequest(request req, int currTime)
+    {
+      r = req;
+      requestStartTime = currTime;
+    }
+    request getRequest()
+    {
+      return r;
+    }
+    void setRequest(request req, int currTime)
+    {
+      r = req;
+      requestStartTime = currTime;
+    }
+    char getName()
+    {
+      return servername;
+    }
+    bool isRequestDone(int currTime)
+    {
+      return (currTime >= (requestStartTime + r.processTime));
+    }
+    bool getAvailability() 
+    {
+      return available;
+    }
+    void setAvailability(bool temp) 
+    {
+      available = temp;
+    }
 
-request WebServer::getRequest() {
-    return req;
-}
-
-char WebServer::getName() {
-    return serverName;
-}
-
-bool WebServer::isReqDone(int currentTime) {
-    return currentTime > (reqStartTime + req.processTime);
-}
+  private:
+    request r;
+    int requestStartTime;
+    char servername;
+    bool available;
+};
